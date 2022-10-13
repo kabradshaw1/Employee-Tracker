@@ -23,6 +23,7 @@ const viewAllDepartments = () => {
     runApp();
   })
 };
+
 // WHEN I choose to view all roles
 // THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
 const viewAllRoles = () => {
@@ -74,7 +75,7 @@ const addADepartment = async () => {
   ])
   const sql =`INSERT INTO department (name)
               VALUES
-                ('${department.department}'),`
+                ('${department.department}');`
   db.query(sql, async (err, res) =>{
     if (err) throw err;
     console.table(res);
@@ -182,8 +183,8 @@ const addAnEmployee = async () => {
     },
     {
       type: 'input', 
-      name: 'manage', 
-      message: 'What is the id for this employees manager? ',
+      name: 'manager', 
+      message: 'What is the id of this employee\'s manager ',
       validate: Input => {
         if (Input) {
           return true;
@@ -192,7 +193,7 @@ const addAnEmployee = async () => {
           return false;
         }
       }
-    }
+    },
   ])
   const sql =`INSERT INTO employee (first_name, last_name, role_id, manager_id)
               VALUES
@@ -207,7 +208,9 @@ const addAnEmployee = async () => {
 // WHEN I choose to update an employee role
 // THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 const updateAnEmployee = () => {
-  const sql =`SELECT * FROM department`
+  const sql =`UPDATE employee
+              SET role_id = ${prompt.role}
+              WHERE employee.id = ${prompt};`
   db.query(sql, (err, res) =>{
     if (err) throw err;
     console.table(res);
