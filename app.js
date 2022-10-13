@@ -207,11 +207,40 @@ const addAnEmployee = async () => {
 
 // WHEN I choose to update an employee role
 // THEN I am prompted to select an employee to update and their new role and this information is updated in the database
-const updateAnEmployee = () => {
+const updateAnEmployee = async () => {
+  const prompt = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'employee',
+      message: 'What is this employees\'s id?',
+      validate: Input => {
+        if (Input) {
+          return true;
+        } else {
+          console.log('You must input a name.');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input', 
+      name: 'role', 
+      message: 'What is this emloyee\'s new role id? ',
+      validate: Input => {
+        if (Input) {
+          return true;
+        } else {
+          console.log('Please input answer.');
+          return false;
+        }
+      }
+    },
+  ])
+
   const sql =`UPDATE employee
               SET role_id = ${prompt.role}
-              WHERE employee.id = ${prompt};`
-  db.query(sql, (err, res) =>{
+              WHERE employee.id = ${prompt.employee};`
+  db.query(sql, async (err, res) =>{
     if (err) throw err;
     console.table(res);
     runApp();
@@ -252,7 +281,7 @@ const runApp = () => {
         case 'Add An Employee':
           addAnEmployee();
           break; 
-        case 'Update An Employee':
+        case 'Update An Employee Role':
           updateAnEmployee();
           break;
         case 'Quit':

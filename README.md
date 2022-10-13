@@ -12,3 +12,4 @@ This excise is supposed to give us practice writing sql code.
 
 ## Video Link
 
+https://drive.google.com/file/d/10xBlAsZguBb8mZjRPp_I8jMpCxL_1-uB/view
