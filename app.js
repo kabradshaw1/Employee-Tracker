@@ -196,8 +196,8 @@ const addAnEmployee = async () => {
   ])
   const sql =`INSERT INTO employee (first_name, last_name, role_id, manager_id)
               VALUES
-                ('${}', '${}', ${}, ${});`
-  db.query(sql, (err, res) =>{
+                ('${prompt.first_name}', '${prompt.last_name}', ${prompt.role}, ${prompt.manager});`
+  db.query(sql, async (err, res) =>{
     if (err) throw err;
     console.table(res);
     runApp();
