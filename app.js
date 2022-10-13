@@ -115,7 +115,7 @@ const addARole = async () => {
     {
       type: 'input', 
       name: 'department', 
-      message: 'What department? ',
+      message: 'What department id? ',
       validate: Input => {
         if (Input) {
           return true;
@@ -126,7 +126,10 @@ const addARole = async () => {
       }
     }
   ])
-  const sql =`SELECT * FROM department`
+  const sql =`INSERT INTO role (title, salary, department_id)
+              VALUES
+                ('${prompt.name}', ${prompt.salary}, ${prompt.department});`
+
   db.query(sql, async (err, res) =>{
     if (err) throw err;
     console.table(res);
@@ -136,8 +139,64 @@ const addARole = async () => {
 
 // WHEN I choose to add an employee
 // THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-const addAnEmployee = () => {
-  const sql =`SELECT * FROM department`
+const addAnEmployee = async () => {
+  const prompt = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'first_name',
+      message: 'What is this employees\'s first name?',
+      validate: Input => {
+        if (Input) {
+          return true;
+        } else {
+          console.log('You must input a name.');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input', 
+      name: 'last_name', 
+      message: 'What is this employees\'s last name? ',
+      validate: Input => {
+        if (Input) {
+          return true;
+        } else {
+          console.log('Please input answer.');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input', 
+      name: 'role', 
+      message: 'What role id? ',
+      validate: Input => {
+        if (Input) {
+          return true;
+        } else {
+          console.log('Please input answer.');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input', 
+      name: 'manage', 
+      message: 'What is the id for this employees manager? ',
+      validate: Input => {
+        if (Input) {
+          return true;
+        } else {
+          console.log('Please input answer.');
+          return false;
+        }
+      }
+    }
+  ])
+  const sql =`INSERT INTO employee (first_name, last_name, role_id, manager_id)
+              VALUES
+                ('${}', '${}', ${}, ${});`
   db.query(sql, (err, res) =>{
     if (err) throw err;
     console.table(res);
@@ -155,7 +214,6 @@ const updateAnEmployee = () => {
     runApp();
   })
 };
-
 
 
 // WHEN I start the application
